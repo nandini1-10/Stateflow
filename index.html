@@ -1,3 +1,8 @@
+# Trial Period Implementation without bKash
+
+I'll modify the payment system to allow a trial period without requiring bKash payment initially. Here's the updated code:
+
+```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -307,6 +312,231 @@
             text-align: center;
         }
 
+        /* Payment Methods Section */
+        .payment-methods {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-methods h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .payment-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-logo {
+            font-size: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-logo.bkash {
+            color: #e2136e;
+        }
+
+        .payment-logo.visa {
+            color: #1a1f71;
+        }
+
+        .payment-logo.mastercard {
+            color: #eb001b;
+        }
+
+        .payment-logo.amex {
+            color: #006fcf;
+        }
+
+        .payment-logo span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            margin: 3rem 0;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Live Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.05);
+            background: var(--primary-dark);
+        }
+
+        .chat-button i {
+            font-size: 1.5rem;
+        }
+
+        .chat-container {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .chat-container.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .message {
+            padding: 0.8rem;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.bot {
+            background: #f1f1f1;
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: var(--primary-light);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 0.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0 1rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
         /* Pricing Section */
         .pricing {
             margin: 4rem 0;
@@ -339,1451 +569,4 @@
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s;
-            position: relative;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .pricing-header {
-            padding: 2rem;
-            text-align: center;
-            color: white;
-        }
-
-        .free .pricing-header {
-            background: linear-gradient(135deg, var(--free-plan) 0%, #495057 100%);
-        }
-
-        .pro .pricing-header {
-            background: linear-gradient(135deg, var(--pro-plan) 0%, #138496 100%);
-        }
-
-        .business .pricing-header {
-            background: linear-gradient(135deg, var(--business-plan) 0%, #ff5722 100%);
-        }
-
-        .pricing-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-duration {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .pricing-features {
-            padding: 2rem;
-        }
-
-        .pricing-features ul {
-            list-style: none;
-        }
-
-        .pricing-features li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .pricing-features i {
-            color: var(--success);
-        }
-
-        .pricing-action {
-            padding: 0 2rem 2rem;
-            text-align: center;
-        }
-
-        .pricing-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .free .pricing-btn {
-            background: var(--free-plan);
-            color: white;
-        }
-
-        .pro .pricing-btn {
-            background: var(--pro-plan);
-            color: white;
-        }
-
-        .business .pricing-btn {
-            background: var(--business-plan);
-            color: white;
-        }
-
-        .pricing-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        /* Payment Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 500px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .payment-option {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .payment-option:hover {
-            border-color: var(--primary);
-        }
-
-        .payment-option.selected {
-            border-color: var(--primary);
-            background-color: rgba(44, 90, 160, 0.1);
-        }
-
-        .payment-option i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .payment-form {
-            display: none;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .modal-footer {
-            padding: 1.5rem;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn-cancel {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-confirm {
-            background: var(--success);
-            color: white;
-        }
-
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-
-        .feature-text {
-            color: var(--text-secondary);
-        }
-
-        /* Footer Styles */
-        footer {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 2.5rem 0;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        .footer-links a:hover {
-            opacity: 0.8;
-        }
-
-        .copyright {
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            nav ul {
-                gap: 1.2rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .card {
-                padding: 1.5rem;
-            }
-            
-            .features, .pricing-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .payment-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .download-options {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Auth Modal */
-        .auth-tabs {
-            display: flex;
-            border-bottom: 1px solid #dee2e6;
-            margin-bottom: 1.5rem;
-        }
-
-        .auth-tab {
-            padding: 1rem;
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-        }
-
-        .auth-tab.active {
-            border-bottom: 3px solid var(--primary);
-            font-weight: 600;
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        /* Policy Pages */
-        .policy-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .policy-section {
-            margin-bottom: 2rem;
-        }
-
-        .policy-section h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .policy-section p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .policy-section ul {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Support Section */
-        .support-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .support-option {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-
-        .support-option:hover {
-            transform: translateY(-5px);
-        }
-
-        .support-option i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <img src="https://i.ibb.co/VWsmg0LC/logo.png" alt="Stateflow Logo">
-                <div class="logo-text">Stateflow</div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showSection('home')">হোম</a></li>
-                    <li><a href="#" onclick="showSection('pricing')">প্রাইসিং</a></li>
-                    <li><a href="#" onclick="showSection('contact')">যোগাযোগ</a></li>
-                    <li><a href="#" onclick="showSection('support')">সাপোর্ট</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <button class="btn btn-outline" onclick="showAuthModal('login')">লগ ইন</button>
-                <button class="btn btn-primary" onclick="showAuthModal('register')">নিবন্ধন</button>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <!-- Home Section -->
-        <section id="home-section">
-            <div class="container">
-                <section class="hero">
-                    <h1>আপনার ব্যাংক স্টেটমেন্টকে স্মার্ট এক্সেল বা CSV তে রূপান্তর করুন</h1>
-                    <p>Stateflow এর সাহায্যে আপনার PDF ব্যাংক স্টেটমেন্টকে সহজেই এডিটযোগ্য এক্সেল বা CSV ফরম্যাটে পরিণত করুন। দ্রুত, সুরক্ষিত এবং ৯৯% নির্ভুল।</p>
-                </section>
-
-                <div class="card">
-                    <h2 class="card-title"><i class="fas fa-file-upload"></i> আপনার স্টেটমেন্ট আপলোড করুন</h2>
-                    
-                    <div class="upload-container" id="dropZone">
-                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                        <p class="upload-text">PDF ফাইল এখানে এনে রাখুন অথবা <span class="browse-link" id="browseButton">ব্রাউজ করুন</span></p>
-                        <input type="file" id="fileInput" accept=".pdf" hidden>
-                        <p class="support-text">শুধুমাত্র .pdf ফাইল সাপোর্টেড | সর্বোচ্চ সাইজ: 10MB</p>
-                    </div>
-
-                    <div class="progress-container" id="progressContainer" hidden>
-                        <div class="progress-bar">
-                            <div class="progress" id="progressBar"></div>
-                        </div>
-                        <div class="progress-info">
-                            <span id="progressText">প্রসেস করা হচ্ছে...</span>
-                            <span id="progressPercent">0%</span>
-                        </div>
-                    </div>
-
-                    <div class="result-container" id="resultContainer" hidden>
-                        <p class="success-text"><i class="fas fa-check-circle"></i> রূপান্তর সফল হয়েছে!</p>
-                        <div class="download-options">
-                            <a href="#" class="download-btn" id="excelDownloadLink">
-                                <i class="fas fa-file-excel"></i> Excel ফাইল ডাউনলোড
-                            </a>
-                            <a href="#" class="download-btn" id="csvDownloadLink" style="background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);">
-                                <i class="fas fa-file-csv"></i> CSV ফাইল ডাউনলোড
-                            </a>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <button class="download-btn" onclick="showVisualization()">
-                                <i class="fas fa-chart-bar"></i> ডেটা ভিজুয়ালাইজেশন দেখুন
-                            </button>
-                            <button class="download-btn" style="background: var(--danger);" onclick="deleteData()">
-                                <i class="fas fa-trash"></i> ডেটা ডিলিট করুন
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="visualization" id="visualization">
-                        <div class="chart-container">
-                            <div class="chart-title">আয় বনাম ব্যয়</div>
-                            <canvas id="incomeExpenseChart"></canvas>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-title">ব্যয়ের বিভাগ</div>
-                            <canvas id="expenseCategoryChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Features Section -->
-                <section class="features">
-                    <div class="feature-card">
-                        <i class="fas fa-shield-alt feature-icon"></i>
-                        <h3 class="feature-title">সম্পূর্ণ সুরক্ষিত</h3>
-                        <p class="feature-text">আপনার ডেটা আমাদের সার্ভারে সম্পূর্ণ নিরাপদ থাকে এবং প্রসেস হওয়ার পরে সাথে সাথে মুছে ফেলা হয়।</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <i class="fas fa-bolt feature-icon"></i>
-                        <h3 class="feature-title">দ্রুত গতি</h3>
-                        <p class="feature-text">আমাদের উন্নত অ্যালগরিদম আপনার PDF ফাইল কয়েক সেকেন্ডের মধ্যে এক্সেল বা CSV তে রূপান্তর করে।</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <i class="fas fa-chart-pie feature-icon"></i>
-                        <h3 class="feature-title">ডেটা ভিজুয়ালাইজেশন</h3>
-                        <p class="feature-text">রূপান্তরিত ডেটা থেকে অটোমেটিক গ্রাফ ও চার্ট তৈরি করুন আপনার ফাইন্যান্সিয়াল অ্যানালিসিসের জন্য।</p>
-                    </div>
-                </section>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing-section" style="display: none;">
-            <div class="container">
-                <div class="section-title">
-                    <h2>সাবস্ক্রিপশন প্ল্যান</h2>
-                    <p>আপনার চাহিদা অনুযায়ী সঠিক প্ল্যানটি নির্বাচন করুন</p>
-                </div>
-
-                <div class="pricing-container">
-                    <!-- Free Plan -->
-                    <div class="pricing-card free">
-                        <div class="pricing-header">
-                            <h3 class="pricing-title">ফ্রী</h3>
-                            <div class="pricing-price">৳০</div>
-                            <div class="pricing-duration">মাসিক</div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check"></i> ৫টি PDF কনভার্সন/মাস</li>
-                                <li><i class="fas fa-check"></i> বেসিক এক্সেল ও CSV আউটপুট</li>
-                                <li><i class="fas fa-check"></i> সাধারণ সাপোর্ট</li>
-                                <li><i class="fas fa-times" style="color: var(--danger);"></i> অ্যাডভান্সড ফরম্যাটিং</li>
-                                <li><i class="fas fa-times" style="color: var(--danger);"></i> বাল্ক কনভার্সন</li>
-                                <li><i class="fas fa-times" style="color: var(--danger);"></i> অগ্রাধিকার সাপোর্ট</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-action">
-                            <button class="pricing-btn" onclick="selectPlan('free')">বিনামূল্যে শুরু করুন</button>
-                        </div>
-                    </div>
-
-                    <!-- Pro Plan -->
-                    <div class="pricing-card pro">
-                        <div class="pricing-header">
-                            <h3 class="pricing-title">প্রো</h3>
-                            <div class="pricing-price">৳২৯৯</div>
-                            <div class="pricing-duration">মасিক</div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check"></i> ৫০টি PDF কনভার্সন/মাস</li>
-                                <li><i class="fas fa-check"></i> অ্যাডভান্সড এক্সেল ও CSV আউটপুট</li>
-                                <li><i class="fas fa-check"></i> প্রায়োরিটি সাপোর্ট</li>
-                                <li><i class="fas fa-check"></i> কাস্টম ফরম্যাটিং</li>
-                                <li><i class="fas fa-check"></i> ৫টি পর্যন্ত বাল্ক কনভার্সন</li>
-                                <li><i class="fas fa-times" style="color: var(--danger);"></i> White-label সমাধান</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-action">
-                            <button class="pricing-btn" onclick="selectPlan('pro')">প্রো প্ল্যান নিন</button>
-                        </div>
-                    </div>
-
-                    <!-- Business Plan -->
-                    <div class="pricing-card business">
-                        <div class="pricing-header">
-                            <h3 class="pricing-title">বিজনেস</h3>
-                            <div class="pricing-price">৳৫৯৯</div>
-                            <div class="pricing-duration">মাসিক</div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check"></i> আনলিমিটেড PDF কনভার্সন</li>
-                                <li><i class="fas fa-check"></i> এডিটযোগ্য এক্সেল ও CSV টেম্পলেট</li>
-                                <li><i class="fas fa-check"></i> ২৪/৭ প্রায়োরিটি সাপোর্ট</li>
-                                <li><i class="fas fa-check"></i> অ্যাডভান্সড ফরম্যাটিং</li>
-                                <li><i class="fas fa-check"></i> আনলিমিটেড বাল্ক কনভার্সন</li>
-                                <li><i class="fas fa-check"></i> White-label সমাধান</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-action">
-                            <button class="pricing-btn" onclick="selectPlan('business')">বিজনেস প্ল্যান নিন</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact-section" style="display: none;">
-            <div class="container">
-                <div class="section-title">
-                    <h2>যোগাযোগ করুন</h2>
-                    <p>আমাদের সাথে যোগাযোগ করতে নিচের ফর্মটি পূরণ করুন</p>
-                </div>
-
-                <div class="card">
-                    <h2 class="card-title"><i class="fas fa-envelope"></i> যোগাযোগ ফর্ম</h2>
-                    
-                    <div class="form-group">
-                        <label for="contactName">আপনার নাম</label>
-                        <input type="text" id="contactName" placeholder="আপনার পুরো নাম">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactEmail">ইমেইল ঠিকানা</label>
-                        <input type="email" id="contactEmail" placeholder="আপনার ইমেইল ঠিকানা">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactSubject">বিষয়</label>
-                        <input type="text" id="contactSubject" placeholder="বিষয়">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactMessage">বার্তা</label>
-                        <textarea id="contactMessage" rows="5" placeholder="আপনার বার্তা"></textarea>
-                    </div>
-                    
-                    <button class="download-btn" style="width: 100%; justify-content: center;" onclick="sendContactMessage()">
-                        <i class="fas fa-paper-plane"></i> বার্তা পাঠান
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Support Section -->
-        <section id="support-section" style="display: none;">
-            <div class="container">
-                <div class="section-title">
-                    <h2>সাপোর্ট</h2>
-                    <p>আমরা আপনাকে সাহায্য করতে এখানে আছি</p>
-                </div>
-
-                <div class="support-options">
-                    <div class="support-option">
-                        <i class="fas fa-question-circle"></i>
-                        <h3>FAQ</h3>
-                        <p>সাধারণ প্রশ্ন ও উত্তর</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="showSection('faq')">দেখুন</button>
-                    </div>
-                    
-                    <div class="support-option">
-                        <i class="fas fa-book"></i>
-                        <h3>টিউটোরিয়াল</h3>
-                        <p>কিভাবে ব্যবহার করবেন</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="showSection('tutorial')">দেখুন</button>
-                    </div>
-                    
-                    <div class="support-option">
-                        <i class="fas fa-headset"></i>
-                        <h3>লাইভ চ্যাট</h3>
-                        <p>সরাসরি কথা বলুন</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="startLiveChat()">চ্যাট শুরু করুন</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Policy Pages -->
-        <section id="policy-section" style="display: none;">
-            <div class="container">
-                <div class="policy-content">
-                    <div class="section-title">
-                        <h2>গোপনীয়তা নীতি</h2>
-                        <p>আমরা কিভাবে আপনার ডেটা সুরক্ষিত রাখি</p>
-                    </div>
-
-                    <div class="policy-section">
-                        <h3>ডেটা সংগ্রহ</h3>
-                        <p>আমরা শুধুমাত্র প্রয়োজনীয় ডেটা সংগ্রহ করি:</p>
-                        <ul>
-                            <li>আপনার আপলোড করা PDF ফাইল</li>
-                            <li>আপনার যোগাযোগের তথ্য</li>
-                            <li>সেবা ব্যবহারের পরিসংখ্যান</li>
-                        </ul>
-                    </div>
-
-                    <div class="policy-section">
-                        <h3>ডেটা ব্যবহার</h3>
-                        <p>আপনার ডেটা শুধুমাত্র নিম্নলিখিত উদ্দেশ্যে ব্যবহার করা হয়:</p>
-                        <ul>
-                            <li>PDF থেকে Excel/CSV রূপান্তর করা</li>
-                            <li>সেবার মান উন্নয়ন</li>
-                            <li>গ্রাহক সাপোর্ট প্রদান</li>
-                        </ul>
-                    </div>
-
-                    <div class="policy-section">
-                        <h3>ডেটা সংরক্ষণ</h3>
-                        <p>আমরা আপনার ডেটা সর্বোচ্চ 24 ঘন্টা সংরক্ষণ করি। রূপান্তর প্রক্রিয়া সম্পন্ন হওয়ার পরে আপনার সমস্ত ডেটা আমাদের সার্ভার থেকে মুছে ফেলা হয়।</p>
-                    </div>
-
-                    <div class="policy-section">
-                        <h3>তৃতীয় পক্ষের সাথে ডেটা শেয়ার</h3>
-                        <p>আমরা কোনো তৃতীয় পক্ষের সাথে আপনার ব্যক্তিগত ডেটা শেয়ার করি না।</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Payment Modal -->
-    <div class="modal" id="paymentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>পেমেন্ট সম্পন্ন করুন</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="planInfo">
-                    <h4 id="selectedPlan">প্রো প্ল্যান - ৳২৯৯/মাস</h4>
-                    <p id="planDescription">৫০টি PDF কনভার্সন/মাস, অ্যাডভান্সড এক্সেল/CSV আউটপুট, প্রায়োরিটি সাপোর্ট</p>
-                </div>
-
-                <div class="payment-options">
-                    <div class="payment-option" onclick="selectPayment('bkash')">
-                        <i class="fas fa-mobile-alt"></i>
-                        <p>bKash</p>
-                    </div>
-                    <div class="payment-option" onclick="selectPayment('visa')">
-                        <i class="fab fa-cc-visa"></i>
-                        <p>Visa</p>
-                    </div>
-                    <div class="payment-option" onclick="selectPayment('mastercard')">
-                        <i class="fab fa-cc-mastercard"></i>
-                        <p>Mastercard</p>
-                    </div>
-                </div>
-
-                <!-- bKash Payment Form -->
-                <div class="payment-form" id="bkashForm">
-                    <div class="form-group">
-                        <label for="bkashNumber">bKash নম্বর</label>
-                        <input type="tel" id="bkashNumber" placeholder="01XXXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label for="bkashPin">bKash PIN</label>
-                        <input type="password" id="bkashPin" placeholder="PIN">
-                    </div>
-                    <div class="form-group">
-                        <label for="bkashTransaction">Transaction ID (যদি থাকে)</label>
-                        <input type="text" id="bkashTransaction" placeholder="Transaction ID">
-                    </div>
-                </div>
-
-                <!-- Card Payment Form -->
-                <div class="payment-form" id="cardForm">
-                    <div class="form-group">
-                        <label for="cardNumber">কার্ড নম্বর</label>
-                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expiryDate">মেয়াদ শেষ</label>
-                            <input type="text" id="expiryDate" placeholder="MM/YY">
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" placeholder="123">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cardName">কার্ডধারকের নাম</label>
-                        <input type="text" id="cardName" placeholder="John Doe">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeModal()">বাতিল</button>
-                <button class="btn btn-confirm" onclick="processPayment()">পেমেন্ট সম্পন্ন করুন</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="authModalTitle">লগ ইন</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="auth-tabs">
-                    <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">লগ ইন</div>
-                    <div class="auth-tab" id="registerTab" onclick="switchAuthTab('register')">নিবন্ধন</div>
-                </div>
-
-                <div class="auth-form active" id="loginForm">
-                    <div class="form-group">
-                        <label for="loginEmail">ইমেইল</label>
-                        <input type="email" id="loginEmail" placeholder="আপনার ইমেইল">
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">পাসওয়ার্ড</label>
-                        <input type="password" id="loginPassword" placeholder="আপনার পাসওয়ার্ড');
-                    </div>
-                    <div class="form-group">
-                        <button class="download-btn" style="width: 100%; justify-content: center;" onclick="login()">
-                            <i class="fas fa-sign-in-alt"></i> লগ ইন
-                        </button>
-                    </div>
-                    <p style="text-align: center; margin-top: 1rem;">
-                        <a href="#" style="color: var(--primary);">পাসওয়ার্ড ভুলে গেছেন?</a>
-                    </p>
-                </div>
-
-                <div class="auth-form" id="registerForm">
-                    <div class="form-group">
-                        <label for="registerName">পুরো নাম</label>
-                        <input type="text" id="registerName" placeholder="আপনার পুরো নাম">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">ইমেইل</label>
-                        <input type="email" id="registerEmail" placeholder="আপনার ইমেইল">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">পাসওয়ার্ড</label>
-                        <input type="password" id="registerPassword" placeholder="পাসওয়ার্ড">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerConfirmPassword">পасওয়ার্ড নিশ্চিত করুন</label>
-                        <input type="password" id="registerConfirmPassword" placeholder="পাসওয়ার্ড নিশ্চিত করুন">
-                    </div>
-                    <div class="form-group">
-                        <button class="download-btn" style="width: 100%; justify-content: center;" onclick="register()">
-                            <i class="fas fa-user-plus"></i> নিবন্ধন করুন
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-logo">Stateflow</div>
-            <p>আপনার ব্যাংকিং ডেটা ম্যানেজমেন্টের সহজ সমাধান</p>
-            
-            <div class="footer-links">
-                <a href="#" onclick="showSection('policy')">প্রাইভেসি পলিসি</a>
-                <a href="#">টার্মস অফ সার্ভিস</a>
-                <a href="#" onclick="showSection('support')">সাপোর্ট</a>
-                <a href="#" onclick="showSection('contact')">ফিডব্যাক</a>
-            </div>
-            
-            <p class="copyright">© 2023 Stateflow. সকল অধিকার সংরক্ষিত।</p>
-        </div>
-    </footer>
-
-    <script>
-        // Global variables
-        let currentUser = null;
-        let selectedPlan = '';
-        let selectedPayment = '';
-        let convertedData = null;
-
-        // Section navigation
-        function showSection(section) {
-            document.getElementById('home-section').style.display = 'none';
-            document.getElementById('pricing-section').style.display = 'none';
-            document.getElementById('contact-section').style.display = 'none';
-            document.getElementById('support-section').style.display = 'none';
-            document.getElementById('policy-section').style.display = 'none';
-            
-            if (section === 'home') {
-                document.getElementById('home-section').style.display = 'block';
-            } else if (section === 'pricing') {
-                document.getElementById('pricing-section').style.display = 'block';
-            } else if (section === 'contact') {
-                document.getElementById('contact-section').style.display = 'block';
-            } else if (section === 'support') {
-                document.getElementById('support-section').style.display = 'block';
-            } else if (section === 'policy') {
-                document.getElementById('policy-section').style.display = 'block';
-            }
-            
-            window.scrollTo(0, 0);
-        }
-
-        // Auth modal functions
-        function showAuthModal(type) {
-            const modal = document.getElementById('authModal');
-            if (type === 'login') {
-                document.getElementById('authModalTitle').textContent = 'লগ ইন';
-                switchAuthTab('login');
-            } else {
-                document.getElementById('authModalTitle').textContent = 'নিবন্ধন';
-                switchAuthTab('register');
-            }
-            modal.style.display = 'flex';
-        }
-
-        function switchAuthTab(tab) {
-            document.getElementById('loginTab').classList.remove('active');
-            document.getElementById('registerTab').classList.remove('active');
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('registerForm').classList.remove('active');
-            
-            if (tab === 'login') {
-                document.getElementById('loginTab').classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-            } else {
-                document.getElementById('registerTab').classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-            }
-        }
-
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                alert('দয়া করে ইমেইল এবং পাসওয়ার্ড প্রদান করুন');
-                return;
-            }
-            
-            // Simulate login
-            currentUser = {
-                name: 'Test User',
-                email: email,
-                plan: 'free',
-                conversions: 3
-            };
-            
-            alert('সফলভাবে লগ ইন করা হয়েছে!');
-            closeModal();
-            updateUIForUser();
-        }
-
-        function register() {
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (!name || !email || !password) {
-                alert('দয়া করে সকল তথ্য প্রদান করুন');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('পাসওয়ার্ড মিলেনি');
-                return;
-            }
-            
-            // Simulate registration
-            currentUser = {
-                name: name,
-                email: email,
-                plan: 'free',
-                conversions: 5
-            };
-            
-            alert('সফলভাবে নিবন্ধন completed!');
-            closeModal();
-            updateUIForUser();
-        }
-
-        function updateUIForUser() {
-            if (currentUser) {
-                document.querySelector('.auth-buttons').innerHTML = `
-                    <button class="btn btn-outline">${currentUser.name}</button>
-                    <button class="btn btn-primary" onclick="logout()">লগ আউট</button>
-                `;
-                
-                // Update conversions left
-                const conversionsLeft = currentUser.plan === 'free' ? (5 - currentUser.conversions) : 'অসীম';
-                document.querySelector('.upload-text').innerHTML = `
-                    PDF ফাইল এখানে এনে রাখুন অথবা <span class="browse-link" id="browseButton">ব্রাউজ করুন</span>
-                    <br><small>(${conversionsLeft} কনভার্সন বাকি)</small>
-                `;
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            document.querySelector('.auth-buttons').innerHTML = `
-                <button class="btn btn-outline" onclick="showAuthModal('login')">লগ ইন</button>
-                <button class="btn btn-primary" onclick="showAuthModal('register')">নিবন্ধন</button>
-            `;
-            
-            document.querySelector('.upload-text').innerHTML = `
-                PDF ফাইল এখানে এনে রাখুন অথবা <span class="browse-link" id="browseButton">ব্রাউজ করুন</span>
-            `;
-            
-            alert('সফলভাবে লগ আউট করা হয়েছে');
-        }
-
-        // Plan selection and payment handling
-        function selectPlan(plan) {
-            if (!currentUser) {
-                alert('দয়া করে প্রথমে লগ ইন করুন');
-                showAuthModal('login');
-                return;
-            }
-            
-            selectedPlan = plan;
-            const modal = document.getElementById('paymentModal');
-            
-            // Update plan info in modal
-            if (plan === 'free') {
-                document.getElementById('selectedPlan').textContent = 'ফ্রী প্ল্যান - ৳০/মাস';
-                document.getElementById('planDescription').textContent = '৫টি PDF কনভার্সন/মাস, বেসিক এক্সেল/CSV আউটপুট, সাধারণ সাপোর্ট';
-            } else if (plan === 'pro') {
-                document.getElementById('selectedPlan').textContent = 'প্রো প্ল্যান - ৳২৯৯/মাস';
-                document.getElementById('planDescription').textContent = '৫০টি PDF কনভার্সন/মাস, অ্যাডভান্সড এক্সেল/CSV আউটপুট, প্রায়োরিটি সাপোর্ট';
-            } else if (plan === 'business') {
-                document.getElementById('selectedPlan').textContent = 'বিজনেস প্ল্যান - ৳৫৯৯/মাস';
-                document.getElementById('planDescription').textContent = 'আনলিমিটেড PDF কনভার্সন, এডিটযোগ্য এক্সেল/CSV টেম্পলেট, ২৪/৭ প্রায়োরিটি সাপোর্ট';
-            }
-            
-            modal.style.display = 'flex';
-        }
-
-        function selectPayment(method) {
-            selectedPayment = method;
-            
-            // Remove selected class from all options
-            const options = document.querySelectorAll('.payment-option');
-            options.forEach(option => option.classList.remove('selected'));
-            
-            // Add selected class to clicked option
-            event.target.closest('.payment-option').classList.add('selected');
-            
-            // Show the appropriate form
-            document.getElementById('bkashForm').style.display = 'none';
-            document.getElementById('cardForm').style.display = 'none';
-            
-            if (method === 'bkash') {
-                document.getElementById('bkashForm').style.display = 'block';
-            } else if (method === 'visa' || method === 'mastercard') {
-                document.getElementById('cardForm').style.display = 'block';
-            }
-        }
-
-        function processPayment() {
-            if (!selectedPayment) {
-                alert('দয়া করে একটি পেমেন্ট মেথড নির্বাচন করুন');
-                return;
-            }
-            
-            // Validate forms
-            if (selectedPayment === 'bkash') {
-                const bkashNumber = document.getElementById('bkashNumber').value;
-                if (!bkashNumber || bkashNumber.length !== 11) {
-                    alert('দয়া করে একটি বৈধ bKash নম্বর প্রদান করুন');
-                    return;
-                }
-            } else {
-                const cardNumber = document.getElementById('cardNumber').value;
-                const expiryDate = document.getElementById('expiryDate').value;
-                const cvv = document.getElementById('cvv').value;
-                const cardName = document.getElementById('cardName').value;
-                
-                if (!cardNumber || !expiryDate || !cvv || !cardName) {
-                    alert('দয়া করে সকল কার্ডের তথ্য প্রদান করুন');
-                    return;
-                }
-            }
-            
-            // Simulate payment processing
-            alert('পেমেন্ট প্রসেস করা হচ্ছে...');
-            
-            // Simulate successful payment
-            setTimeout(() => {
-                closeModal();
-                
-                // Update user plan
-                currentUser.plan = selectedPlan;
-                currentUser.conversions = 0;
-                
-                updateUIForUser();
-                
-                alert('পেমেন্ট সফল হয়েছে! আপনার অ্যাকাউন্টটি এখন আপগ্রেড করা হয়েছে।');
-                
-                // In a real app, this would connect to your backend and bKash account
-                simulateBkashPayment(selectedPlan);
-            }, 2000);
-        }
-
-        function simulateBkashPayment(plan) {
-            const amount = plan === 'pro' ? 299 : 599;
-            console.log(`bKash payment of ৳${amount} processed successfully!`);
-            console.log('Funds have been transferred to your bKash account.');
-            
-            // In a real app, you would have server-side code handling the actual payment processing
-        }
-
-        function closeModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('authModal').style.display = 'none';
-            selectedPayment = '';
-            
-            // Reset forms
-            document.getElementById('bkashForm').style.display = 'none';
-            document.getElementById('cardForm').style.display = 'none';
-            
-            // Remove selected class from payment options
-            const options = document.querySelectorAll('.payment-option');
-            options.forEach(option => option.classList.remove('selected'));
-        }
-
-        // File upload handling
-        document.addEventListener('DOMContentLoaded', () => {
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const browseButton = document.getElementById('browseButton');
-            const progressContainer = document.getElementById('progressContainer');
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            const progressPercent = document.getElementById('progressPercent');
-            const resultContainer = document.getElementById('resultContainer');
-            const excelDownloadLink = document.getElementById('excelDownloadLink');
-            const csvDownloadLink = document.getElementById('csvDownloadLink');
-
-            // Handle browse button click
-            browseButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                fileInput.click();
-            });
-
-            // Handle file selection via input
-            fileInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) {
-                    handleFile(e.target.files[0]);
-                }
-            });
-
-            // Drag and drop handlers
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight() {
-                dropZone.style.borderColor = '#2c5aa0';
-                dropZone.style.backgroundColor = 'rgba(195, 207, 226, 0.3)';
-            }
-
-            function unhighlight() {
-                dropZone.style.borderColor = '#c3cfe2';
-                dropZone.style.backgroundColor = 'rgba(195, 207, 226, 0.1)';
-            }
-
-            dropZone.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const file = dt.files[0];
-                handleFile(file);
-            }
-
-            // Main function to handle the uploaded file
-            async function handleFile(file) {
-                if (!currentUser) {
-                    alert('দয়া করে প্রথমে লগ ইন করুন');
-                    showAuthModal('login');
-                    return;
-                }
-                
-                // Check if user has conversions left
-                if (currentUser.plan === 'free' && currentUser.conversions >= 5) {
-                    alert('আপনার ফ্রী কনভার্সন সীমা শেষ হয়েছে। দয়া করে একটি পেইড প্ল্যান নিন।');
-                    showSection('pricing');
-                    return;
-                }
-
-                // Reset UI
-                hide(resultContainer);
-                hide(document.getElementById('visualization'));
-                
-                // Validate file type
-                if (file.type !== 'application/pdf') {
-                    alert('শুধুমাত্র PDF ফাইল আপলোড করুন।');
-                    return;
-                }
-
-                // Validate file size (10MB)
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('ফাইলের সাইজ 10MB এর কম হতে হবে।');
-                    return;
-                }
-
-                // Show progress UI
-                show(progressContainer);
-                setProgress(10, 'ফাইল প্রস্তুত করা হচ্ছে...');
-
-                // Simulate processing (in a real app, you would call your API here)
-                for (let i = 10; i <= 100; i += 10) {
-                    await new Promise(resolve => setTimeout(resolve, 300));
-                    
-                    if (i < 40) {
-                        setProgress(i, 'ফাইল আপলোড হচ্ছে...');
-                    } else if (i < 70) {
-                        setProgress(i, 'PDF বিশ্লেষণ করা হচ্ছে...');
-                    } else if (i < 90) {
-                        setProgress(i, 'এক্সেল/CSV ফাইল তৈরি করা হচ্ছে...');
-                    } else {
-                        setProgress(i, 'রূপান্তর সম্পন্ন হচ্ছে...');
-                    }
-                }
-
-                // Update user conversions
-                if (currentUser.plan === 'free') {
-                    currentUser.conversions++;
-                }
-
-                // Generate sample data for visualization
-                convertedData = {
-                    transactions: [
-                        { date: '2023-01-05', description: 'গ্রোসারি', amount: -2500, category: 'খাদ্য' },
-                        { date: '2023-01-10', description: 'বেতন', amount: 50000, category: 'আয়' },
-                        { date: '2023-01-15', description: 'বিদ্যুৎ বিল', amount: -1200, category: 'ইউটিলিটি' },
-                        { date: '2023-01-20', description: 'রেস্টুরেন্ট', amount: -1500, category: 'খাদ্য' },
-                        { date: '2023-01-25', description: 'ইন্টারনেট বিল', amount: -1000, category: 'ইউটিলিটি' },
-                        { date: '2023-01-28', description: 'ফ্রিল্যান্স কাজ', amount: 15000, category: 'আয়' }
-                    ]
-                };
-
-                // Show success UI
-                hide(progressContainer);
-                show(resultContainer);
-                
-                // Create a dummy Excel file for download
-                const dummyExcelData = URL.createObjectURL(new Blob([""], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
-                excelDownloadLink.href = dummyExcelData;
-                excelDownloadLink.download = file.name.replace('.pdf', '.xlsx');
-                
-                // Create a dummy CSV file for download
-                const csvContent = convertToCSV(convertedData.transactions);
-                const csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const csvUrl = URL.createObjectURL(csvBlob);
-                csvDownloadLink.href = csvUrl;
-                csvDownloadLink.download = file.name.replace('.pdf', '.csv');
-                
-                updateUIForUser();
-            }
-
-            function show(el) {
-                el.hidden = false;
-            }
-            
-            function hide(el) {
-                el.hidden = true;
-            }
-            
-            function setProgress(percent, text) {
-                progressBar.style.width = percent + '%';
-                progressText.textContent = text;
-                progressPercent.textContent = percent + '%';
-            }
-            
-            // Convert data to CSV format
-            function convertToCSV(transactions) {
-                const headers = ['তারিখ', 'বিবরণ', 'পরিমাণ', 'বিভাগ'];
-                const rows = transactions.map(transaction => [
-                    transaction.date,
-                    transaction.description,
-                    transaction.amount,
-                    transaction.category
-                ]);
-                
-                return [headers, ...rows]
-                    .map(row => row.map(field => `"${field}"`).join(','))
-                    .join('\n');
-            }
-        });
-
-        // Data visualization
-        function showVisualization() {
-            if (!convertedData) {
-                alert('কোন ডেটা পাওয়া যায়নি। প্রথমে একটি PDF ফাইল কনভার্ট করুন।');
-                return;
-            }
-            
-            const visualization = document.getElementById('visualization');
-            visualization.style.display = 'block';
-            
-            // Scroll to visualization
-            visualization.scrollIntoView({ behavior: 'smooth' });
-            
-            // Create charts
-            createIncomeExpenseChart();
-            createExpenseCategoryChart();
-        }
-
-        function createIncomeExpenseChart() {
-            const ctx = document.getElementById('incomeExpenseChart').getContext('2d');
-            
-            // Calculate income and expenses
-            let income = 0;
-            let expenses = 0;
-            
-            convertedData.transactions.forEach(transaction => {
-                if (transaction.amount > 0) {
-                    income += transaction.amount;
-                } else {
-                    expenses += Math.abs(transaction.amount);
-                }
-            });
-            
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['আয়', 'ব্যয়'],
-                    datasets: [{
-                        label: 'টাকার পরিমাণ',
-                        data: [income, expenses],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.7)',
-                            'rgba(220, 53, 69, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(40, 167, 69, 1)',
-                            'rgba(220, 53, 69, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'টাকার পরিমাণ'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createExpenseCategoryChart() {
-            const ctx = document.getElementById('expenseCategoryChart').getContext('2d');
-            
-            // Calculate expenses by category
-            const categories = {};
-            
-            convertedData.transactions.forEach(transaction => {
-                if (transaction.amount < 0 && transaction.category !== 'আয়') {
-                    const amount = Math.abs(transaction.amount);
-                    if (categories[transaction.category]) {
-                        categories[transaction.category] += amount;
-                    } else {
-                        categories[transaction.category] = amount;
-                    }
-                }
-            });
-            
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(categories),
-                    datasets: [{
-                        label: 'ব্যয়ের পরিমাণ',
-                        data: Object.values(categories),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(153, 102, 255, 0.7)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
-        }
-
-        // Data deletion
-        function deleteData() {
-            if (confirm('আপনি কি নিশ্চিত যে আপনি আপনার সমস্ত ডেটা ডিলিট করতে চান? এই কাজটি অপরিবর্তনীয়।')) {
-                convertedData = null;
-                hide(document.getElementById('resultContainer'));
-                hide(document.getElementById('visualization'));
-                alert('আপনার সমস্ত ডেটা সফলভাবে ডিলিট করা হয়েছে।');
-            }
-        }
-
-        // Contact form
-        function sendContactMessage() {
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
-            
-            if (!name || !email || !subject || !message) {
-                alert('দয়া করে সকল তথ্য প্রদান করুন');
-                return;
-            }
-            
-            // Simulate sending message
-            alert('আপনার বার্তা পাঠানো হয়েছে! আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।');
-            
-            // Clear form
-            document.getElementById('contactName').value = '';
-            document.getElementById('contactEmail').value = '';
-            document.getElementById('contactSubject').value = '';
-            document.getElementById('contactMessage').value = '';
-        }
-
-        // Support functions
-        function startLiveChat() {
-            alert('লাইভ চ্যাট শুরু হচ্ছে... আমাদের একজন support representative আপনার সাথে shortly যোগাযোগ করবেন।');
-        }
-    </script>
-</body>
-</html>
+            box-shadow: 0 6px
