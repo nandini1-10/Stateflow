@@ -1,0 +1,12 @@
+{
+  "name": "stateflow",
+  "version": "1.0.0",
+  "description": "Bank Statement Converter",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build process needed'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
